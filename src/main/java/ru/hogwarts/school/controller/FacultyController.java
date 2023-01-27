@@ -15,8 +15,7 @@ public class FacultyController {
     private final FacultyService facultyService;
 
     public FacultyController(FacultyService facultyService) {
-        this.facultyService = facultyService;
-    }
+        this.facultyService = facultyService;}
 
 
     @PostMapping
@@ -57,17 +56,15 @@ public class FacultyController {
     public ResponseEntity<List<Faculty>> getColor(@PathVariable String color) {
         return ResponseEntity.ok(facultyService.findByColor(color));
     }
+
     @GetMapping("colorOrName")
     public ResponseEntity<Collection<Faculty>> getByNameOrColor(@RequestParam(required = false) String name,
                                                                 @RequestParam(required = false) String color) {
-        if (color != null || name != null) {
-            return ResponseEntity.ok(facultyService.getFacultyByNameAndColor(color, name));
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(facultyService.getFacultyByNameOrColor(name, color));
     }
 
     @GetMapping("students/{id}")
-    public ResponseEntity<Collection<Faculty>> getFaculties(@PathVariable Long id) {
-        return ResponseEntity.ok(facultyService.getFaculty(id));
+    public ResponseEntity<Collection<Faculty>> getStudents(@PathVariable Long id) {
+        return ResponseEntity.ok(facultyService.getStudents(id));
     }
 }

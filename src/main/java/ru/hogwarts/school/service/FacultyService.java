@@ -12,6 +12,7 @@ import java.util.List;
 public class FacultyService {
     private final FacultyRepository facultyRepository;
 
+
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
@@ -43,11 +44,11 @@ public class FacultyService {
         return facultyRepository.findByColor(color);
     }
 
-    public Collection<Faculty> getFacultyByNameAndColor(String name, String color) {
+    public Collection<Faculty> getFacultyByNameOrColor(String name, String color) {
         return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 
-    public Collection<Faculty> getFaculty(Long id) {
-        return facultyRepository.findFacultyById(id);
+    public Collection<Faculty> getStudents(Long id) {
+        return facultyRepository.findFacultyByStudentId(id);
     }
 }

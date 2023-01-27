@@ -5,8 +5,10 @@ select * from student where name like '%o%';
 select * from student where age < id;
 select * from student order by age;
 
-select * from student, faculty
-where faculty.id = faculty_id;
+select * from student
+;
+
+
 
 
 
