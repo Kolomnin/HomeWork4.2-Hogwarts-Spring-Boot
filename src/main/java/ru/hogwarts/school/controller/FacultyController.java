@@ -67,7 +67,7 @@ public class FacultyController {
     }
 
     @GetMapping("students/{id}")
-    public ResponseEntity<Collection<Faculty>> getStudents(@PathVariable Long id) {
-        return ResponseEntity.ok(facultyService.getStudents(id));
+    public ResponseEntity<Collection<Faculty>> getFaculties(@PathVariable Long id) {
+        return ResponseEntity.ok(facultyService.getFaculty(id));
     }
 }
