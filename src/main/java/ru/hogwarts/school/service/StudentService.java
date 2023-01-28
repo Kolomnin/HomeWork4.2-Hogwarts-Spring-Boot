@@ -1,19 +1,23 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final FacultyRepository facultyRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
         this.studentRepository = studentRepository;
+        this.facultyRepository = facultyRepository;
     }
 
     public Student createStudent(Student student) {
@@ -24,30 +28,28 @@ public class StudentService {
         return studentRepository.findById(id).orElse(null);
     }
 
+    @Transactional
+    public Collection<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
     public Student editStudent(Student student) {
-        if (studentRepository.existsById(student.getId())) {
-            return studentRepository.save(student);
-        }
-        return null;
+        return studentRepository.save(student);
     }
 
     public void deleteStudent(long id) {
         studentRepository.deleteById(id);
     }
 
-    public Collection<Student> getAll() {
-        return studentRepository.findAll();
+    public Collection<Student> findStudentsByAgeIsBetween(int age1, int age2) {
+        return studentRepository.findStudentsByAgeIsBetween(age1, age2);
     }
 
-    public List<Student> findByAge(int age){
-        return studentRepository.findByAge(age);
+    public Collection<Student> findByNameAndAge(String name, int age) {
+        return studentRepository.findByNameIgnoreCaseAndAge(name,age);
     }
 
-    public Collection<Student> getStudentsByAgeBetween(int ageMin, int ageMax) {
-        return studentRepository.findByAgeBetween(ageMin, ageMax);
-    }
-
-    public Collection<Student> getStudents(Long id) {
-        return studentRepository.findStudentsById(id);
+    public Faculty findFaculty(Long id) {
+        return facultyRepository.findByStudentsId(id);
     }
 }
