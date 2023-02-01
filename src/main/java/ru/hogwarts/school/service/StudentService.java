@@ -50,4 +50,16 @@ public class StudentService {
     public Collection<Student> getStudents(Long id) {
         return studentRepository.findStudentsById(id);
     }
+
+    public Integer getAllStudents() {
+        return studentRepository.getAllStudents();
+    }
+
+    public Double getAverageAge() {
+        return studentRepository.getAverageAge( );
+    }
+
+    public List<Student> getLastStudents() {
+        return studentRepository.getLastStudent();
+    }
 }

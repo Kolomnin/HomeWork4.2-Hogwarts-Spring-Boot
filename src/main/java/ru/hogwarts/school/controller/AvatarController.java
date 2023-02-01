@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,49 +54,22 @@ public class AvatarController {
         Avatar avatar = avatarService.findAvatar(id);
         Path path = Path.of(avatar.getFilePath());
         try(InputStream is = Files.newInputStream(path);
-            OutputStream os = response.getOutputStream();) {
+            OutputStream os = response.getOutputStream()) {
             response.setStatus(200);
             response.setContentType(avatar.getMediaType());
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
     }
-
-
-   /* private final AvatarService avatarService;
-
-    public AvatarController(AvatarService avatarService) {
-        this.avatarService = avatarService;
-    }
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadAvatar(@RequestParam MultipartFile avatar) throws IOException {
-        if (avatar.getSize() >= 1024*300) {
-            return ResponseEntity.badRequest().body("File is too big");
-
-        }
-        avatarService.saveAvatar(avatar);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("{id}")
+    public void deleteAvatar(@PathVariable Long id) {
+        avatarService.deleteAvatar(id);
     }
 
-    @GetMapping(value = "{id}/avatar-from-db")
-    public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {
-        Avatar result = avatarService.findAvatar(id);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(result.getMediaType()));
-        headers.setContentLength(result.getData().length);
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(result.getData());
+    @GetMapping("all")
+    public ResponseEntity<Page<Avatar>> getAll(@RequestParam("page") Integer pageNum,
+                                               @RequestParam("size") Integer pageSize) {
+        return ResponseEntity.ok(avatarService.getAllAvatars(pageNum, pageSize));
     }
 
-    @GetMapping(value = "/{id}/avatar-from-file")
-    public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        Avatar avatar = avatarService.findAvatar(id);
-        Path path = Path.of(avatar.getFilePath());
-        try (InputStream is = Files.newInputStream(path);
-             OutputStream os = response.getOutputStream()) {
-            response.setStatus(200);
-            response.setContentType(avatar.getMediaType());
-            response.setContentLength((int) avatar.getFileSize());
-            is.transferTo(os);
-        }
-    }*/
 }
