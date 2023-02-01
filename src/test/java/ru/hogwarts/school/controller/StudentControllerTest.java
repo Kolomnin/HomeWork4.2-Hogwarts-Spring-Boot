@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.StudentRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class StudentControllerTest {
     @LocalServerPort
     private int port;
@@ -19,6 +22,8 @@ public class StudentControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Test
     void contextLoads() throws Exception {
@@ -72,10 +77,11 @@ public class StudentControllerTest {
     }
 
     @Test
-    void getStudentTest() throws  Exception {
-        int id = 4;
+    void GetStudentTest() throws Exception {
+        int one = 3;
         Assertions
-                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/students/" + id,  String.class)).isNotNull();
+                .assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/student/" + one, Student.class))
+                .isNotNull();
     }
 
     @Test
