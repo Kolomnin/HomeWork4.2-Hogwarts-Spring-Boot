@@ -61,7 +61,7 @@ public class StudentController {
 
     }
 
-    @GetMapping("/ageBetween")
+    @GetMapping("/age-between")
     public ResponseEntity<Collection<Student>> getStudentByAgeBetween(@RequestParam int ageMin,
                                                                       @RequestParam int ageMax) {
         return ResponseEntity.ok(studentService.getStudentsByAgeBetween(ageMin, ageMax));
@@ -84,5 +84,10 @@ public class StudentController {
     @GetMapping("/last-students")
     public ResponseEntity<List<Student>> getLastStudents() {
         return ResponseEntity.ok(studentService.getLastStudents());
+    }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<Student>> getStudentsByName(@PathVariable("name") String name) {
+        List<Student> students = studentService.getStudentsByName(name);
+        return ResponseEntity.ok(students);
     }
 }
