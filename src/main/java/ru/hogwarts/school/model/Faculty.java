@@ -1,6 +1,14 @@
 package ru.hogwarts.school.model;
 
-import javax.persistence.*;
+
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.Objects;
 

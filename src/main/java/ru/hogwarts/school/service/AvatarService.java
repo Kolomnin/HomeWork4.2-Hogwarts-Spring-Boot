@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarService {
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
     @Value("${avatar.dir.path}")
     private String avatarDir;
     private final StudentService studentService;
@@ -55,6 +58,8 @@ public class AvatarService {
         avatar.setMediaType(avatarFile.getContentType());
         avatar.setData(avatarFile.getBytes());
         avatarRepository.save(avatar);
+        logger.info("Request to upload avatar by  student id {}", studentId);
+
     }
 
     private byte[] generatedImagePreview(Path filePath) throws IOException {
@@ -74,23 +79,28 @@ public class AvatarService {
     }
 
     private String getExtension(String fileName) {
+        logger.info("Was invoked method getting extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.info("Request to getting avatar by student id {}", studentId);
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
     }
 
     private String getExtensions(String fileName) {
+        logger.info("Was invoked method getting extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public void deleteAvatar(Long id) {
+        logger.info("Request to delete avatar by id {}", id);
         avatarRepository.delete(findAvatar(id));
     }
 
     public Page<Avatar> getAllAvatars(Integer page, Integer limit) {
         PageRequest pageRequest = PageRequest.of(page - 1, limit);
+        logger.info("Request to getting avatars by page num {}", limit);
         return avatarRepository.findAll(pageRequest);
     }
 }
