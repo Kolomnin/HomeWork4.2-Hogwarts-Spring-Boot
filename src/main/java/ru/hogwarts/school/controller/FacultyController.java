@@ -75,4 +75,8 @@ public class FacultyController {
         Collection<Faculty> faculties = facultyService.getFacultyByNameAndColor(name, color);
         return ResponseEntity.ok(faculties);
     }
+    @GetMapping("/lognest-name")
+    public ResponseEntity<String> findLongestName() {
+        return ResponseEntity.ok(facultyService.findLongestName());
+    }
 }
