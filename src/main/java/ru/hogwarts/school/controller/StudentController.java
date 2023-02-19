@@ -100,4 +100,15 @@ public class StudentController {
     public Integer timeRequest() {
         return studentService.timeRequest();
     }
+
+    @GetMapping("thread")
+    public void getStudentsName() {
+        studentService.getStudentsNameThreadOne();
+    }
+
+    @GetMapping("thread-synchronized")
+    public void getStudentsNameSynchronized() {
+        studentService.getStudentsNameThreadTwo();
+    }
+
 }
